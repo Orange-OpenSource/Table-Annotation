@@ -75,7 +75,5 @@ else:
                 e_txn.put(item_QID.encode("ascii"), pickle.dumps(new_item_infos))
                 if (count_item%100000 == 0):
                     logging.info("... Processed " + str(count_item) + " wikidata items.")
-                if count_item == 1000000:
-                    break
     edge_lmdb_writer.close()
 logging.info("Done")
