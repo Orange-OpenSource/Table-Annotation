@@ -1,0 +1,51 @@
+version: '3'
+
+x-prod-common:
+    environment:
+        &prod-common-env
+        ELASTICSEARCH_HOST: "elasticsearch"
+        ELASTICSEARCH_PORT: "9200"
+        ELASTICSEARCH_USER: ""
+        ELASTICSEARCH_PWD: ""
+        WD_LOOKUP_DUMP_URL: "https://zenodo.org/record/8426650/files/wikidata_lookup_dump.json.gz?download=1"
+        WD_HASHMAP_URL: "https://zenodo.org/records/8426650/files/wikidata_hashmap.json.gz?download=1"
+
+services:
+    elasticsearch:
+        image: elasticsearch:7.17.2
+        environment:
+            - "discovery.type=single-node"
+            - "cluster.name=cw-single-es"
+            - "ES_JAVA_OPTS=-Xms1G -Xmx1G"
+        ports: ['9200:9200']
+        volumes:
+            - ${ELASTICSEARCH_VOLUME_DIR:-./data/elasticsearch}/:/usr/share/elasticsearch/data
+        ulimits:
+            nofile:
+                soft: 65535
+                hard: 65535
+
+    kibana:
+        image: kibana:7.17.2
+        ports: ['5601:5601']
+        depends_on: ['elasticsearch']
+
+    entity_indexing:
+        image: python:3.10
+        volumes:
+            - ${DATA_VOLUME_DIR:-./data/lookup}/:/data
+        command: sh -c "pip install elasticsearch==7.15.1 && python /data/entity_indexing.py"
+        depends_on: ['elasticsearch']
+        environment:
+            <<: *prod-common-env
+
+    wd_hashmap_indexing:
+        image: python:3.10
+        volumes:
+            - ${DATA_VOLUME_DIR:-./data/hashmap}/:/data
+        command: sh -c "pip install lmdb==1.3.0 && python /data/wd_hashmap_indexing.py"
+        environment:
+            <<: *prod-common-env
+
+            
+    
