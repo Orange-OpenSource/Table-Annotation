@@ -29,7 +29,7 @@ setup(
     install_requires=[
         'ftfy==6.0.3',
         'numpy==1.22.0',
-        'scipy==1.7.3',
+        'scipy==1.10.0',
         'pandas==1.4.0',
         'quantulum3==0.7.9',
         'stemming==1.0.1',
