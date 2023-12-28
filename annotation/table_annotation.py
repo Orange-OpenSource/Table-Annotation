@@ -112,10 +112,10 @@ def table_annotation(raw_table, K=20, kb_path="./data/hashmap", lookup_index="da
 				baseline_model.cpa_task(head_col_index=head_col,tail_col_index=tail_col, only_one=True)
 
 		annotation_output["annotated"]["tableDataRevised"] = revised_table
-		annotation_output["annotated"]["CEA"] = [{"row": cell.row_index, "column": cell.col_index, "annotation": {"label": baseline_model.KB.get_label_of_entity(cea[0]["id"], True), 
+		annotation_output["annotated"]["CEA"] = [{"row": cell.row_index, "column": cell.col_index, "annotation": {"label": baseline_model.KB.get_label_of_entity(cea[0]["id"]), 
 														"uri": baseline_model.KB.prefixing_entity(cea[0]["id"]),
 															"score": round(cea[0]["score"],2)}} for cell, cea in baseline_model.cea_annot.items()]
-		annotation_output["annotated"]["CTA"] = [{"column": col.col_index, "annotation": [{"label": baseline_model.KB.get_label_of_entity(cta["id"], True), 
+		annotation_output["annotated"]["CTA"] = [{"column": col.col_index, "annotation": [{"label": baseline_model.KB.get_label_of_entity(cta["id"]), 
 													"uri":  baseline_model.KB.prefixing_entity(cta["id"]), "score": round(cta["score"],2), 
 													"coverage": round(cta["coverage"],2)} for cta in cta_list]} for col, cta_list in baseline_model.cta_annot.items()]
 		annotation_output["annotated"]["CPA"] = []
@@ -131,7 +131,7 @@ def table_annotation(raw_table, K=20, kb_path="./data/hashmap", lookup_index="da
 			annotation_output["annotated"]["CPA"].append({"headColumn": col_pair.head_col_index, "tailColumn": col_pair.tail_col_index, 
 													"annotation": {"label": rel_label, "uri": rel_uri, "score": round(cpa[0]["score"],2), "coverage": round(cpa[0]["coverage"],2)}})
 
-		annotation_output["preprocessed"] = baseline_model.preprocessing_infos["data"][0]["preprocessed"]
+		annotation_output["preprocessed"] = baseline_model.table_infos
 		annotation_output["preprocessed"].pop("tableDataRevised", None)
 		annotation_output["preprocessingTime"] = baseline_model.preprocessing_time
 		annotation_output["lookupTime"] = baseline_model.lookup_time

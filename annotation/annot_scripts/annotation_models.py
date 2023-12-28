@@ -289,8 +289,6 @@ class Baseline_Model(AbstractAnnotationModel):
                 self.avg_lookup_candidate += len(self.lookup[cell])
             if denom > 0:
                 self.avg_lookup_candidate = round(self.avg_lookup_candidate/denom, 2)
-            ## for debug
-            self.lookup_debug = lookup_results["abnormal_mentions"]
 
             return True
         else:
