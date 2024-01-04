@@ -24,13 +24,13 @@ import gzip
 import pickle
 import logging
 
-wd_lookup_dump_url = os.getenv("WD_HASHMAP_URL", "")
+wd_graph_dump_url = os.getenv("WD_HASHMAP_URL", "")
 index_name = "/data/edges"
 os.makedirs(index_name, exist_ok=True)
 dump_file = "/data/graph_dump.json.gz"
 
 if not os.path.isfile(dump_file):
-    os.system(f"wget {wd_lookup_dump_url} -O {dump_file}")
+    os.system(f"wget {wd_graph_dump_url} -O {dump_file}")
 
 logging.basicConfig(
     filename='/data/indexing.log',

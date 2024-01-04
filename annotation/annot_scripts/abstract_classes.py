@@ -49,12 +49,7 @@ class AbstractKnowledgeBase(ABC):
     def get_label_of_entity(self, entity_id):
         """ Get the labels + aliases of an entity """
         pass
-
-    @abstractmethod
-    def get_label_of_property(self, property_id):
-        """ Get the label of a property """
-        pass
-
+        
     @abstractmethod
     def get_num_edges(self, entity_id):
         """ Get number of incoming edges of an entity in KG """
